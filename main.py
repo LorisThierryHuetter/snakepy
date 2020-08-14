@@ -71,7 +71,8 @@ def main():
 
     clock = pygame.time.Clock()
 
-    countdown = 0
+    countdown = 10
+    timetomove = False
 
     while flag:
 
@@ -90,30 +91,46 @@ def main():
                         print("cant move there")
                     else:
                         direction = "right"
-                        countdown = 10
                         print("Moving right")
-                if  event.key == pygame.K_LEFT:
+                        countdown = countdown + 10
+                if event.key == pygame.K_LEFT:
                     if direction == "right":
                         print("cant move there")
                     else:
                         direction = "left"
-                        countdown = 10
                         print("Moving left")
-                if  event.key == pygame.K_UP:
+                        countdown = countdown + 10
+                if event.key == pygame.K_UP:
                     if direction == "down":
                         print("cant move there")
                     else:
                         direction = "up"
-                        countdown = 10
                         print("Moving up")
-                if  event.key == pygame.K_DOWN:
+                        countdown = countdown + 10
+                if event.key == pygame.K_DOWN:
                     if direction == "up":
                         print("cant move there")
                     else:
                         direction = "down"
-                        countdown = 10
                         print("Moving down")
+                        countdown = countdown + 10
 
+
+
+
+        print(posX)
+
+
+        #Bewegung(direction, posX, posY, countdown)
+        countdown = countdown + 1
+        if countdown > 10:
+            countdown = 0
+            timetomove = True
+        else:
+            time.sleep(0.1)
+            timetomove = False
+
+        if timetomove:
             if direction == "right":
                 if posX <= 6:
                     posX = posX + 1
@@ -134,19 +151,10 @@ def main():
                     posY = posY + 1
                 else:
                     posY = 0
-
-
-        print(posX)
-
-        countdown = countdown + 1
-
-
+        else:
+            print("not moving")
 
         pygame.draw.rect(win, (255, 0, 0), ((block * posX), (block * posY), blocksize, blocksize))
-
-        Bewegung(direction, posX, posY, countdown)
-
-
         pygame.display.update()
         fps.tick(FPS)
 
