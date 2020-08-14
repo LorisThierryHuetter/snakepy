@@ -24,33 +24,6 @@ class snake(object):
         self.x = x
         self.y = y
 
-#def Bewegung(direction, posX, posY, countdown):
-#    if countdown < 10:
-#        time.sleep(0.1)
-#    else:
-#        if direction == "right":
-#            if posX <= 6:
-#                posX = posX + 1
-#            else:
-#                posX = 0
-#        if direction == "left":
-#            if posX >= 1:
-#                posX = posX - 1
-#            else:
-#                posX = 7
-#        if direction == "up":
-#            if posY >= 1:
-#                posY = posY - 1
-#            else:
-#                posY = 7
-#        if direction == "down":
-#            if posY <= 6:
-#                posY = posY + 1
-#            else:
-#                posY = 0
-#        countdown = 0
-#        return direction, posX, posY, countdown
-
 def main():
     # window
     WIN_WIDTH = 900
@@ -152,7 +125,7 @@ def main():
                 else:
                     posY = 0
         else:
-            print("not moving")
+            print(countdown)
 
         pygame.draw.rect(win, (255, 0, 0), ((block * posX), (block * posY), blocksize, blocksize))
         pygame.display.update()
