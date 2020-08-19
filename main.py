@@ -17,12 +17,12 @@ fps = pygame.time.Clock()
 bg = pygame.image.load("grid.jpg")
 
 # class for cubes
-class cube(object):     # TODO: make better and usefull snake class
-    w = 0
+class food(object):     # TODO: make better and usefull snake class
+    food = 0
 
 # class for the snake
 class snake(object):    # TODO: make better and usefull snake class
-    SIZE = 3
+    size = 3
 
     def __init__(self, x, y):
         self.x = x
@@ -33,6 +33,14 @@ class snake(object):    # TODO: make better and usefull snake class
 # TODO: make a 2D array which saves what is on every block, like is there a snake on block 0,4 or food on block 2,3 etc.
 
 # TODO: find out a way for the snake to grow and the body to move
+
+def snakebody(win, block, blocksize, Gridvalues, previousPosition): # TODO: fix this, it laggs behind
+
+    Gridvalues[previousPosition[1]][previousPosition[0]] = 1
+    posX = previousPosition[0]
+    posY = previousPosition[1]
+    pygame.draw.rect(win, (255, 0, 0), ((block * posX), (block * posY), blocksize, blocksize))
+
 
 # the main game function
 def main():
@@ -143,7 +151,7 @@ def main():
             time.sleep(0.1)
             # sets the timetomove on false again if it was on true before
             timetomove = False
-
+        previousPosition = [posX, posY]
         # runs when the boolean is set on true
         if timetomove:
             # runs when this is the current direction
@@ -182,6 +190,9 @@ def main():
         # block is the pixel amount until the next block spot and posX and posY is the amount of blocks to move
         # blocksize sets the size of the block
         pygame.draw.rect(win, (255, 0, 0), ((block * posX), (block * posY), blocksize, blocksize))
+
+        snakebody(win, block, blocksize, Gridvalues, previousPosition) # TODO: Fix the second block lagging behind instead of being a body part
+
         # update function
         draw_window(win)
         # the fps tick
