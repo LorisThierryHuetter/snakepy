@@ -52,6 +52,24 @@ def main():
     posX = 0
     posY = 0
 
+    # 2 dimensional array saving conditions and values of every field
+    gridX = 0
+    gridY = 0
+    Gridvalues = [[0 for x in range(8)] for y in range(8)]
+
+    # Values:
+    # 0 means empty
+    # 1 means snake head
+    # 2 means snake body
+    # 3 means food
+
+    # 2D array example
+    # y = 2
+    # x = 3
+    # Matrix = [[0 for x in range(y)] for y in range(x)]
+    # Matrix[2][1] = 3
+    # print(Matrix[2][1])
+
     # game loop
     flag = True
     # initial direction
@@ -75,7 +93,7 @@ def main():
 
         # for every even that happens
         for event in pygame.event.get():
-            print(event)
+            #print(event)
 
             # whenever a key gets pressed
             if event.type == pygame.KEYDOWN:
@@ -155,7 +173,7 @@ def main():
         else:
             # for debug shows it the countdown works
             # TODO: Remove debug
-            print(countdown)
+            print("Coordinates are: ", posX, posY)
 
         # draws the rectangle which is actually a square
         # win is that it will be drawn in the screen
