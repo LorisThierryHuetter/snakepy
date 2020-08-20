@@ -35,13 +35,13 @@ class snake(object):    # TODO: make better and usefull snake class
 # TODO: find out a way for the snake to grow and the body to move
 
 def snakebody(win, block, blocksize, Gridvalues, previousPosition): # TODO: fix this, it laggs behind
-
+    # TODO: Comment this function
     Gridvalues[previousPosition[1]][previousPosition[0]] = 1
     posX = previousPosition[0]
     posY = previousPosition[1]
     pygame.draw.rect(win, (255, 0, 0), ((block * posX), (block * posY), blocksize, blocksize))
 
-
+# TODO: Make everything into functions with correct returns
 # the main game function
 def main():
     # window size
