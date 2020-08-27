@@ -43,17 +43,114 @@ def snakebody(win, block, blocksize, Gridvalues, previousPosition): # TODO: fix 
     return 0
 
 # TODO: Make everything into functions with correct returns
-# the main game function
-def main():
+
+def screen():
     # window size
     WIN_WIDTH = 900
     WIN_HEIGTH = 900
+
     # displaying the window
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGTH))
+
     # game window title
-    icon = pygame.image.load("brain.png")
     pygame.display.set_caption("Machine learning Pygame")
+
+    # game icon (from: https://pixabay.com/vectors/anatomy-biology-brain-thought-mind-1751201/)
+    icon = pygame.image.load("brain.png")
     pygame.display.set_icon(icon)
+
+    # returns the win value
+    return win
+
+# function to check which direction the player is currently moving or wants to move
+def directionCheck(event, direction, countdown):
+    # whenever a key gets pressed
+    if event.type == pygame.KEYDOWN:
+        # specifying between the possible keys pressed, possible is: left, right, up, down
+        if event.key == pygame.K_RIGHT:
+            # prevents the snake from going backwards
+            if direction == "left":
+                print("cant move there")
+            else:
+                # setting the direction
+                direction = "right"
+                print("Moving right")
+                # adding 10 to the countdown, so it will immediatly set the condition for the snake to be moved
+                countdown = countdown + 10
+        if event.key == pygame.K_LEFT:
+            if direction == "right":
+                print("cant move there")
+            else:
+                direction = "left"
+                print("Moving left")
+                countdown = countdown + 10
+        if event.key == pygame.K_UP:
+            if direction == "down":
+                print("cant move there")
+            else:
+                direction = "up"
+                print("Moving up")
+                countdown = countdown + 10
+        if event.key == pygame.K_DOWN:
+            if direction == "up":
+                print("cant move there")
+            else:
+                direction = "down"
+                print("Moving down")
+                countdown = countdown + 10
+
+    return direction, countdown
+
+
+def movement(countdown, posX, posY, direction):
+    # after 10 cycles or having pressed a direction key
+    if countdown > 10:
+        # countdown gets reset to 0 for another run
+        countdown = 0
+        # sets the timetomove boolean to true so the snake can move
+        timetomove = True
+    else:
+        # pauses the game for a 10th of a second until it cycles through again
+        time.sleep(0.1)
+        # sets the timetomove on false again if it was on true before
+        timetomove = False
+    previousPosition = [posX, posY]
+    # runs when the boolean is set on true
+    if timetomove:
+        # runs when this is the current direction
+        if direction == "right":
+            # basically checking that the snake is not on the edge of the screen
+            if posX <= 6:
+                # letting the snake move one block in that direction
+                posX = posX + 1
+            else:
+                # runs when the snake is on the edge of the screen and resets the position to the other side
+                posX = 0
+        if direction == "left":
+            if posX >= 1:
+                posX = posX - 1
+            else:
+                posX = 7
+        if direction == "up":
+            if posY >= 1:
+                posY = posY - 1
+            else:
+                posY = 7
+        if direction == "down":
+            if posY <= 6:
+                posY = posY + 1
+            else:
+                posY = 0
+    else:
+        # TODO: Remove debug
+        print("Coordinates are: ", posX, posY)
+
+    return countdown, posX, posY, previousPosition
+
+# the main game function
+def main():
+    # taking win from function
+    win = screen()
 
     # blocksize in px
     blocksize = 108
@@ -95,8 +192,6 @@ def main():
 
     while flag:
         # initial screen load color
-        win.fill((255, 0, 0))
-        # screen color
         win.fill([0, 0, 0])
         # screen loading with the specified background image on position 0, 0
         win.blit(bg, (0, 0))
@@ -106,85 +201,20 @@ def main():
         for event in pygame.event.get():
             #print(event)
 
-            # whenever a key gets pressed
-            if event.type == pygame.KEYDOWN:
-                # specifying between the possible keys pressed, possible is: left, right, up, down
-                if event.key == pygame.K_RIGHT:
-                    # prevents the snake from going backwards
-                    if direction == "left":
-                        print("cant move there")
-                    else:
-                        # setting the direction
-                        direction = "right"
-                        print("Moving right")
-                        # adding 10 to the countdown, so it will immediatly set the condition for the snake to be moved
-                        countdown = countdown + 10
-                if event.key == pygame.K_LEFT:
-                    if direction == "right":
-                        print("cant move there")
-                    else:
-                        direction = "left"
-                        print("Moving left")
-                        countdown = countdown + 10
-                if event.key == pygame.K_UP:
-                    if direction == "down":
-                        print("cant move there")
-                    else:
-                        direction = "up"
-                        print("Moving up")
-                        countdown = countdown + 10
-                if event.key == pygame.K_DOWN:
-                    if direction == "up":
-                        print("cant move there")
-                    else:
-                        direction = "down"
-                        print("Moving down")
-                        countdown = countdown + 10
+            # stores both return values from the function
+            directionVal = directionCheck(event, direction, countdown)
+            # splits up the both values from the array into the variables used here
+            direction = directionVal[0]
+            countdown = directionVal[1]
 
         # adding 1 to countdown after every cycle
         countdown = countdown + 1
-        # after 10 cycles or having pressed a direction key
-        if countdown > 10:
-            # countdown gets reset to 0 for another run
-            countdown = 0
-            # sets the timetomove boolean to true so the snake can move
-            timetomove = True
-        else:
-            # pauses the game for a 10th of a second until it cycles through again
-            time.sleep(0.1)
-            # sets the timetomove on false again if it was on true before
-            timetomove = False
-        previousPosition = [posX, posY]
-        # runs when the boolean is set on true
-        if timetomove:
-            # runs when this is the current direction
-            if direction == "right":
-                # basically checking that the snake is not on the edge of the screen
-                if posX <= 6:
-                    # letting the snake move one block in that direction
-                    posX = posX + 1
-                else:
-                    # runs when the snake is on the edge of the screen and resets the position to the other side
-                    posX = 0
-            if direction == "left":
-                if posX >= 1:
-                    posX = posX - 1
-                else:
-                    posX = 7
-            if direction == "up":
-                if posY >= 1:
-                    posY = posY - 1
-                else:
-                    posY = 7
-            if direction == "down":
-                if posY <= 6:
-                    posY = posY + 1
-                else:
-                    posY = 0
-        else:
-            # for debug shows it the countdown works
-            # TODO: Remove debug
-            print("Coordinates are: ", posX, posY)
+
+        movementVal = movement(countdown, posX, posY, direction)
+        countdown = movementVal[0]
+        posX = movementVal[1]
+        posY = movementVal[2]
+        previousPosition = movementVal[3]
 
         # draws the rectangle which is actually a square
         # win is that it will be drawn in the screen
