@@ -14,7 +14,7 @@ FPS = 60
 # fps time clock
 fps = pygame.time.Clock()
 # makes a variable with the loaded grid picture as background
-bg = pygame.image.load("grid.jpg")
+bg = pygame.image.load("copyrightfreegrid.png")
 
 # class for cubes
 class food(object):     # TODO: make better and usefull snake class
@@ -36,10 +36,11 @@ class snake(object):    # TODO: make better and usefull snake class
 
 def snakebody(win, block, blocksize, Gridvalues, previousPosition): # TODO: fix this, it laggs behind
     # TODO: Comment this function
-    Gridvalues[previousPosition[1]][previousPosition[0]] = 1
-    posX = previousPosition[0]
-    posY = previousPosition[1]
-    pygame.draw.rect(win, (255, 0, 0), ((block * posX), (block * posY), blocksize, blocksize))
+    #Gridvalues[previousPosition[1]][previousPosition[0]] = 1
+    #posX = previousPosition[0]
+    #posY = previousPosition[1]
+    #pygame.draw.rect(win, (255, 0, 0), ((block * posX), (block * posY), blocksize, blocksize))
+    return 0
 
 # TODO: Make everything into functions with correct returns
 # the main game function
@@ -50,7 +51,9 @@ def main():
     # displaying the window
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGTH))
     # game window title
+    icon = pygame.image.load("brain.png")
     pygame.display.set_caption("Machine learning Pygame")
+    pygame.display.set_icon(icon)
 
     # blocksize in px
     blocksize = 108
@@ -94,7 +97,7 @@ def main():
         # initial screen load color
         win.fill((255, 0, 0))
         # screen color
-        win.fill([255, 255, 255])
+        win.fill([0, 0, 0])
         # screen loading with the specified background image on position 0, 0
         win.blit(bg, (0, 0))
 
